@@ -103,6 +103,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>task-management</finalName>
 	</build>
 
 </project>
