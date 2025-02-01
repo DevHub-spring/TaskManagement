@@ -24,16 +24,25 @@ pipeline {
         }
         stage('Build Application'){
             steps{
-                bat 'mvn clean install'
+                bat 'mvn clean install -DskipTests'
             }
         }
-        stage('Build Image & Push Docker Hub'){
+        stage('Build Docker Image')
+        {
             steps{
                 script{
-                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
-                        bat 'docker build -t taskmanagement:latest -f docker/Dockerfile .'
-                        bat 'docker tag taskmanagement:latest saikrishna2320/taskmanagement:latest'
-                        bat 'docker push saikrishna2320/taskmanagement:latest'
+                    bat 'docker build -t saikrishna2320/task-management:latest .'
+                }
+            }
+        }
+        stage('Push Docker Image To Hub')
+        {
+            steps{
+                 script {
+                     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerCreds')]) {
+                        bat 'docker login -u saikrishna2320 -p %dockerCreds%'
+                        bat 'docker tag saikrishna2320/task-management saikrishna2320/task-management:v1'
+                        bat 'docker push saikrishna2320/task-management:latest'
                     }
                 }
             }
