@@ -4,7 +4,6 @@ pipeline {
         jdk 'jdk21'
         maven 'maven3'
     }
-
     stages {
         stage('Git Checkout') {
             steps {
