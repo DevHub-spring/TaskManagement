@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        stage('Check the Docker Images are build'){
+        stage('Docker Images'){
             steps{
                 script{
                     sh 'docker images'
